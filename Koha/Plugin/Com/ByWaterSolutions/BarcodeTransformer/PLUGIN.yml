@@ -1,0 +1,9 @@
+name: Scanned Barcode Transformer,
+author: Kyle M Hall
+date_authored: 2020-07-02
+date_updated: 1900-01-01
+minimum_version: {MINIMUM_VERSION}
+maximum_version:
+version: {VERSION}
+description: Transform scanned barcodes
+module: Koha::Plugin::Com::ByWaterSolutions::BarcodeTransformer
