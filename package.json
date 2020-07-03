@@ -2,16 +2,7 @@
   "name": "koha-pluginbarcode-transformer",
   "version": "2.1.30",
   "previous_version": "2.1.29",
-  "description": "Koha Kitchen Sink Plugin",
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-cli": "^1.2.2",
-    "gulp-github-release": "^1.1.5",
-    "gulp-run": "^1.7.1"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "A Koha plugin to apply regular expressions to scanned item and patron barcodes",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bywatersolutions/koha-pluginbarcode-transformer.git"
@@ -20,11 +11,5 @@
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/bywatersolutions/koha-pluginbarcode-transformer/issues"
-  },
-  "homepage": "https://github.com/bywatersolutions/koha-pluginbarcode-transformer#readme",
-  "dependencies": {
-    "datetime": "0.0.3",
-    "jsonfile": "^4.0.0",
-    "node-datetime": "^2.0.0"
   }
 }
