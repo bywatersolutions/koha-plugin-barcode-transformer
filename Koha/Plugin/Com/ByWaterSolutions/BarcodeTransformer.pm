@@ -45,21 +45,22 @@ sub barcode_transform {
     return $barcode unless $data;
 
     my $transformations = $data->{$type};
-    return unless $transformations;
+    return $barcode unless $transformations;
 
     foreach my $t ( @$transformations ) {
         my $match = $t->{match};
         my $search = $t->{search};
         my $replace = $t->{replace};
 
-        return $barcode unless $match && $search;
+        next unless $match && $search;
 
         if ( $barcode =~ m/$match/g ) {
             $barcode =~ s/$search/$replace/g;
+            return $barcode;
         }
-
-        return $barcode;
     }
+
+    return $barcode;
 }
 
 sub configure {
