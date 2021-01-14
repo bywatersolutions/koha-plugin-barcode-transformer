@@ -34,8 +34,20 @@ sub new {
     return $self;
 }
 
+sub patron_barcode_transform {
+    my ( $self, $barcode ) = @_;
+
+    return $self->barcode_transform( $barcode );
+}
+
+sub item_barcode_transform {
+    my ( $self, $barcode ) = @_;
+
+    return $self->barcode_transform( $barcode );
+}
+
 sub barcode_transform {
-    my ( $self, $type, $barcode ) = @_;
+    my ( $self, $barcode ) = @_;
 
     my $yaml = $self->retrieve_data('yaml_config');
     return $barcode unless $yaml;
