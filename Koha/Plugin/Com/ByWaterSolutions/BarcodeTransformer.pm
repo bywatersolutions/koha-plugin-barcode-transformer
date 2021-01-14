@@ -37,17 +37,17 @@ sub new {
 sub patron_barcode_transform {
     my ( $self, $barcode ) = @_;
 
-    return $self->barcode_transform( $barcode );
+    return $self->barcode_transform( 'patron', $barcode );
 }
 
 sub item_barcode_transform {
     my ( $self, $barcode ) = @_;
 
-    return $self->barcode_transform( $barcode );
+    return $self->barcode_transform( 'item', $barcode );
 }
 
 sub barcode_transform {
-    my ( $self, $barcode ) = @_;
+    my ( $self, $type, $barcode ) = @_;
 
     my $yaml = $self->retrieve_data('yaml_config');
     return $barcode unless $yaml;
