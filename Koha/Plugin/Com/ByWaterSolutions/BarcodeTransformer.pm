@@ -37,17 +37,19 @@ sub new {
 sub patron_barcode_transform {
     my ( $self, $barcode ) = @_;
 
-    return $self->barcode_transform( 'patron', $barcode );
+    $self->barcode_transform( 'patron', $barcode );
 }
 
 sub item_barcode_transform {
     my ( $self, $barcode ) = @_;
 
-    return $self->barcode_transform( 'item', $barcode );
+    $self->barcode_transform( 'item', $barcode );
 }
 
 sub barcode_transform {
-    my ( $self, $type, $barcode ) = @_;
+    my ( $self, $type, $barcode_ref ) = @_;
+
+    my $barcode = $$barcode_ref;
 
     my $yaml = $self->retrieve_data('yaml_config');
     return $barcode unless $yaml;
@@ -72,7 +74,7 @@ sub barcode_transform {
         }
     }
 
-    return $barcode;
+    $$barcode_ref = $barcode;
 }
 
 sub configure {
