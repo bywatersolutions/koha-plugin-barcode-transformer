@@ -70,7 +70,6 @@ sub barcode_transform {
 
         if ( $barcode =~ m/$match/g ) {
             $barcode =~ s/$search/$replace/g;
-            return $barcode;
         }
     }
 
