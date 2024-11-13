@@ -68,7 +68,8 @@ sub barcode_transform {
 
         next unless $match && $search;
 
-        if ( $barcode =~ m/$match/g ) {
+        my $is_match =  $barcode =~ m/$match/g;
+        if ( $is_match ) {
             $barcode =~ s/$search/$replace/g;
         }
     }
