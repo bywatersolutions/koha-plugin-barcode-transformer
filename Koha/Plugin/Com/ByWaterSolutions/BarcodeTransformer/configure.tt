@@ -42,6 +42,13 @@ patron:
     match: "[X|Y]"
     search: "^.|.$"
     replace: "Z"
+  -
+    match: "^123"
+    search: "^123"
+    replace:
+      BR1: "ABC"
+      BR2: "DEF"
+      _default: "GHI"
 item:
   -
     match: "^A.*[A|B]"

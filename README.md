@@ -20,6 +20,13 @@ item:
     match: "^000"
     search: "^000"
     replace: ""
+  -
+    match: "^123"
+    search: "^123"
+    replace:
+      BR1: "ABC"
+      BR2: "DEF"
+      _default: "GHI"
 ```
 
 The above will find a barcode starting with three zero's and replace them with nothing, i.e. remove them from the barcode

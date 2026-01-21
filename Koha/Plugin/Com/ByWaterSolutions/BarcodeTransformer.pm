@@ -68,8 +68,20 @@ sub barcode_transform {
 
         next unless $match && $search;
 
-        my $is_match =  $barcode =~ m/$match/g;
+        my $is_match = $barcode =~ m/$match/g;
         if ( $is_match ) {
+            if ( ref($replace) ) {
+                my $branchcode = C4::Context->userenv ? C4::Context->userenv->{'branch'} : undef;
+                my $new_replace;
+
+                if ( ref($replace) eq 'HASH' ) {
+                    $new_replace = $replace->{$branchcode} // $replace->{'_default'};
+                }
+
+                next unless defined $new_replace;
+                $replace = $new_replace;
+            }
+
             $barcode =~ s/$search/$replace/g;
         }
     }
