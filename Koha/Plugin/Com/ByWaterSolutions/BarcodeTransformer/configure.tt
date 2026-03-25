@@ -1,4 +1,5 @@
 [% USE KohaDates %]
+[% USE Branches %]
 [% INCLUDE 'doc-head-open.inc' %]
  <title>Koha: Barcode Transformer Plugin: Configuration</title>
 [% INCLUDE 'doc-head-close.inc' %]
@@ -30,6 +31,32 @@
         <input type="submit" value="Save configuration" />
     </form>
 
+</div>
+<div>
+	[% IF (barcode) %]
+	    <h3>Barcode [% barcode | html %] transformed into [% transformed_barcode %]</h3>
+	[% END %]
+    <form method="get">
+        <input type="hidden" name="class" value="[% CLASS %]"/>
+        <input type="hidden" name="method" value="[% METHOD %]"/>
+        <fieldset>
+	<label>Library:</label>
+	<select class="branchcode" name="branchcode">
+	    [% SET libraries = Branches.all( only_from_group => 1 ) %]
+	    [% FOREACH l IN libraries %]
+		[% IF (l.branchcode == branchcode) %]
+		    <option value="[% l.branchcode | html %]" selected="selected">[% l.branchname | html %]</option>
+		[% ELSE %]
+		    <option value="[% l.branchcode | html %]">[% l.branchname | html %]</option>
+		[% END %]
+	    [% END %]
+	</select>
+        <label for="barcode" >Test barcode:</label>
+        <input type="text" name="barcode" value="[% barcode | html %]">
+        <input type="submit" value="Submit">
+        </fieldset>
+    </form>
+</div>
 <br/><br/>
 <h3>Example configuration:</h3>
 <pre>

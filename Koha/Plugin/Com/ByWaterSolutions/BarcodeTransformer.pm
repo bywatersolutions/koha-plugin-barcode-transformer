@@ -6,7 +6,9 @@ use base qw(Koha::Plugins::Base);
 
 use C4::Context;
 use C4::Auth;
+use C4::Circulation qw( barcodedecode );
 
+use t::lib::Mocks qw(mock_userenv);
 use YAML qw(Load);
 
 our $VERSION = "{VERSION}";
@@ -93,7 +95,22 @@ sub configure {
     my ( $self, $args ) = @_;
     my $cgi = $self->{'cgi'};
 
-    unless ( $cgi->param('save') ) {
+    if( $cgi->param('save') ){
+        $self->store_data(
+            {
+                yaml_config => $cgi->param('yaml_config'),
+            }
+        );
+        $self->go_home();
+    }
+    else {
+	my $barcode = $cgi->param('barcode');
+	my $branchcode = $cgi->param('branchcode');
+	t::lib::Mocks::mock_userenv( { branchcode => $branchcode });
+	warn $barcode;
+	my $transformed_barcode = barcodedecode( $barcode );
+
+
         my $template = $self->get_template({ file => 'configure.tt' });
 
         my $yaml = $self->retrieve_data('yaml_config');
@@ -104,17 +121,12 @@ sub configure {
         $template->param(
             yaml_config => $self->retrieve_data('yaml_config'),
             yaml_error => $yaml && !$data,
+	    barcode    => $barcode,
+	    transformed_barcode => $transformed_barcode,
+	    branchcode => $branchcode,
         );
 
         $self->output_html( $template->output() );
-    }
-    else {
-        $self->store_data(
-            {
-                yaml_config => $cgi->param('yaml_config'),
-            }
-        );
-        $self->go_home();
     }
 }
 
