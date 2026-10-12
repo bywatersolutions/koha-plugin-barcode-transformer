@@ -34,11 +34,11 @@
 </div>
 <div>
 	[% IF (barcode) %]
-	    <h3>Barcode [% barcode | html %] transformed into [% transformed_barcode %]</h3>
+	    <h3>Barcode [% barcode | html %] transformed into [% transformed_barcode | html %]</h3>
 	[% END %]
     <form method="get">
-        <input type="hidden" name="class" value="[% CLASS %]"/>
-        <input type="hidden" name="method" value="[% METHOD %]"/>
+        <input type="hidden" name="class" value="[% CLASS | html %]"/>
+        <input type="hidden" name="method" value="[% METHOD | html %]"/>
         <fieldset>
 	<label>Type:</label>
 	<select class="type" name="type">
