@@ -8,7 +8,6 @@ use C4::Context;
 use C4::Auth;
 use C4::Circulation qw( barcodedecode );
 
-use t::lib::Mocks qw(mock_userenv);
 use YAML qw(Load);
 
 our $VERSION = "{VERSION}";
@@ -49,7 +48,7 @@ sub item_barcode_transform {
 }
 
 sub barcode_transform {
-    my ( $self, $type, $barcode_ref ) = @_;
+    my ( $self, $type, $barcode_ref, $forced_branchcode ) = @_;
 
     my $barcode = $$barcode_ref;
 
@@ -73,7 +72,8 @@ sub barcode_transform {
         my $is_match = $barcode =~ m/$match/g;
         if ( $is_match ) {
             if ( ref($replace) ) {
-                my $branchcode = C4::Context->userenv ? C4::Context->userenv->{'branch'} : undef;
+                my $branchcode = $forced_branchcode ? $forced_branchcode :
+		    C4::Context->userenv ? C4::Context->userenv->{'branch'} : undef;
                 my $new_replace;
 
                 if ( ref($replace) eq 'HASH' ) {
@@ -104,11 +104,11 @@ sub configure {
         $self->go_home();
     }
     else {
-	my $barcode = $cgi->param('barcode');
+	my $barcode    = $cgi->param('barcode');
 	my $branchcode = $cgi->param('branchcode');
-	t::lib::Mocks::mock_userenv( { branchcode => $branchcode });
-	warn $barcode;
-	my $transformed_barcode = barcodedecode( $barcode );
+	my $type       = $cgi->param('type');
+	my $transformed_barcode = $barcode;
+	$self->barcode_transform( $type, \$transformed_barcode, $branchcode );
 
 
         my $template = $self->get_template({ file => 'configure.tt' });
@@ -124,6 +124,7 @@ sub configure {
 	    barcode    => $barcode,
 	    transformed_barcode => $transformed_barcode,
 	    branchcode => $branchcode,
+	    type => $type,
         );
 
         $self->output_html( $template->output() );
