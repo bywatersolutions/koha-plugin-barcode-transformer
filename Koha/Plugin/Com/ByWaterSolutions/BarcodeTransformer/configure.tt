@@ -40,6 +40,16 @@
         <input type="hidden" name="class" value="[% CLASS %]"/>
         <input type="hidden" name="method" value="[% METHOD %]"/>
         <fieldset>
+	<label>Type:</label>
+	<select class="type" name="type">
+            [% IF (type == 'patron') %]
+            <option value="item">Item</option>
+            <option value="patron" selected="selected">Patron</option>
+            [% ELSE %]
+            <option value="item" selected="selected">Item</option>
+            <option value="patron">Patron</option>
+            [% END %]
+        </select>
 	<label>Library:</label>
 	<select class="branchcode" name="branchcode">
 	    [% SET libraries = Branches.all( only_from_group => 1 ) %]
